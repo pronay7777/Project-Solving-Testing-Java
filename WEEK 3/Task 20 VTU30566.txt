@@ -1,0 +1,31 @@
+import java.util.Arrays;
+
+class Solution {
+    public String largestNumber(int[] nums) {
+        // Convert integer array to String array
+        String[] numStrs = new String[nums.length];
+        for (int i = 0; i < nums.length; i++) {
+            numStrs[i] = String.valueOf(nums[i]);
+        }
+
+        // Custom comparator: compare combined orders (b + a) vs (a + b)
+        Arrays.sort(numStrs, (a, b) -> (b + a).compareTo(a + b));
+
+        // Edge case: if the highest number is "0", the whole number is 0
+        if (numStrs[0].equals("0")) {
+            return "0";
+        }
+
+        // Build the largest number string
+        StringBuilder sb = new StringBuilder();
+        for (String s : numStrs) {
+            sb.append(s);
+        }
+
+        return sb.toString();
+    }
+}
+
+Output:
+nums = [10,2]
+"210"
