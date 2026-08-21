@@ -1,0 +1,52 @@
+import java.io.*;
+import java.util.*;
+
+public class Solution {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int n = scanner.nextInt();
+        ArrayList<ArrayList<Integer>> lists = new ArrayList<>();
+
+        for (int i = 0; i < n; i++) {
+            int d = scanner.nextInt();
+            ArrayList<Integer> row = new ArrayList<>();
+            for (int j = 0; j < d; j++) {
+                row.add(scanner.nextInt());
+            }
+            lists.add(row);
+        }
+
+        int q = scanner.nextInt();
+        for (int i = 0; i < q; i++) {
+            int x = scanner.nextInt();
+            int y = scanner.nextInt();
+            
+            if (x <= lists.size() && y <= lists.get(x - 1).size()) {
+                System.out.println(lists.get(x - 1).get(y - 1));
+            } else {
+                System.out.println("ERROR!");
+            }
+        }
+        scanner.close();
+    }
+}
+
+Output:
+5
+5 41 77 74 22 44
+1 12
+4 37 34 36 52
+0
+3 20 22 33
+5
+1 3
+3 4
+3 1
+4 3
+5 5
+
+74
+52
+37
+ERROR!
+ERROR!
