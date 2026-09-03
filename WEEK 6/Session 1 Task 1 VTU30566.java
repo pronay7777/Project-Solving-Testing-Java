@@ -27,7 +27,7 @@ class Result {
             }
         }
 
-        long sum = n;  // Similarity of the string with itself
+        long sum = n;  
 
         for (int i = 1; i < n; i++) {
             sum += z[i];
