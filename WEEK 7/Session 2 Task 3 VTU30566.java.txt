@@ -1,0 +1,73 @@
+import java.util.HashMap;
+import java.util.Map;
+
+class UndergroundSystem {
+
+    private static class CheckInRecord {
+        String stationName;
+        int time;
+
+        CheckInRecord(String stationName, int time) {
+            this.stationName = stationName;
+            this.time = time;
+        }
+    }
+
+    private static class JourneyStats {
+        double totalTime;
+        int tripCount;
+
+        JourneyStats(double totalTime, int tripCount) {
+            this.totalTime = totalTime;
+            this.tripCount = tripCount;
+        }
+    }
+
+    private Map<Integer, CheckInRecord> checkIns;
+    private Map<String, JourneyStats> journeyData;
+
+    public UndergroundSystem() {
+        checkIns = new HashMap<>();
+        journeyData = new HashMap<>();
+    }
+    
+    public void checkIn(int id, String stationName, int t) {
+        checkIns.put(id, new CheckInRecord(stationName, t));
+    }
+    
+    public void checkOut(int id, String stationName, int t) {
+        CheckInRecord record = checkIns.remove(id);
+        
+        String startStation = record.stationName;
+        String endStation = stationName;
+        int travelTime = t - record.time;
+        
+        String routeKey = startStation + "->" + endStation;
+        
+        JourneyStats stats = journeyData.getOrDefault(routeKey, new JourneyStats(0, 0));
+        stats.totalTime += travelTime;
+        stats.tripCount += 1;
+        journeyData.put(routeKey, stats);
+    }
+    
+    public double getAverageTime(String startStation, String endStation) {
+        String routeKey = startStation + "->" + endStation;
+        JourneyStats stats = journeyData.get(routeKey);
+        
+        return stats.totalTime / stats.tripCount;
+    }
+}
+
+/**
+ * Your UndergroundSystem object will be instantiated and called as such:
+ * UndergroundSystem obj = new UndergroundSystem();
+ * obj.checkIn(id,stationName,t);
+ * obj.checkOut(id,stationName,t);
+ * double param_1 = obj.getAverageTime(startStation,endStation);
+ */
+
+Output:
+["UndergroundSystem","checkIn","checkIn","checkIn","checkOut","checkOut","checkOut","getAverageTime","getAverageTime","checkIn","getAverageTime","checkOut","getAverageTime"]
+[[],[45,"Leyton",3],[32,"Paradise",8],[27,"Leyton",10],[45,"Waterloo",15],[27,"Waterloo",20],[32,"Cambridge",22],["Paradise","Cambridge"],["Leyton","Waterloo"],[10,"Leyton",24],["Leyton","Waterloo"],[10,"Waterloo",38],["Leyton","Waterloo"]]
+
+[null,null,null,null,null,null,null,14.00000,11.00000,null,11.00000,null,12.00000]
